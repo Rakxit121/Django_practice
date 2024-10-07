@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form</title>
+</head>
+<body>
+    <h1 class="center">Form</h1>
+    
+    <form id="userForm">
+        {% csrf_token %}
+        {{ form.as_p }} <br>
+           <!-- a form containing Name,Address,Email,Phone,Mobile Name
+showd not contain any number or special character, Mobile be verified as in number 3 and
+Phone should not exceed 9 digits and must be all numbers. All the task must be done using-->
+<label for="name">Name:</label>
+<input type="text" id="name" name="name" pattern="[A-Za-z\s]+" required>
+<br><br>
+
+<label for="address">Address:</label>
+<input type="text" id="address" name="address" required>
+<br><br>
+
+<label for="email">Email:</label>
+<input type="email" id="email" name="email" required>
+<br><br>
+
+<label for="phone">Phone:</label>
+<input type="text" id="phone" name="phone" pattern="\d{10}" required>
+<br><br>
+
+<label for="mobile">Mobile:</label>
+<input type="text" id="mobile" name="mobile" pattern="\d{10}" required>
+<br><br>
+
+<input type="submit" value="Submit">
+    </form>
+    
+    <div id="result"></div>
+    
+    <script>
+    $('#userForm').submit(function(e) {
+        e.preventDefault();
+        $.ajax({
+            type: "POST",
+            url: "{% url 'add_user' %}",
+            data: $(this).serialize(),
+            success: function(response) {
+                if (response.status == 'success') {
+                    $('#result').html('<p>User added successfully!</p>');
+                } else {
+                    $('#result').html('<p>' + response.errors + '</p>');
+                }
+            }
+        });
+    });
+    </script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</body>
+</html>

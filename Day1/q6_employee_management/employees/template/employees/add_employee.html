@@ -1,0 +1,23 @@
+<!-- add_employee.html -->
+<h2>Add Employee</h2>
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Submit</button>
+</form>
+<script>
+    function markAsTerminated(employeeId) {
+        $.ajax({
+            url: '/terminate_employee/',
+            method: 'POST',
+            data: {
+                'employee_id': employeeId,
+                'csrfmiddlewaretoken': '{{ csrf_token }}'
+            },
+            success: function (response) {
+                alert(response.message);
+                location.reload();
+            }
+        });
+    }
+</script>
