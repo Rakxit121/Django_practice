@@ -1,0 +1,5 @@
+<form method="POST" id="censusForm">
+    {% csrf_token %}
+    {{ form.as_p }}  <!-- Ensure this is correctly rendering the form fields -->
+    <!-- <button type="submit">Submit</button> -->
+</form>

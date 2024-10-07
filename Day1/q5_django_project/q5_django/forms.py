@@ -1,5 +1,5 @@
 from django import forms
-from .model import KalimatiCensus, KalankiCensus, ChabahilCensus, BhaktapurCensus
+from .models import KalimatiCensus, KalankiCensus, ChabahilCensus, BhaktapurCensus  # Corrected 'model' to 'models'
 
 class KalimatiCensusForm(forms.ModelForm):
     class Meta:

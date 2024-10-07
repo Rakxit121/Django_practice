@@ -14,17 +14,16 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-
+# Project-level urls.py
 from django.contrib import admin
-from django.http import HttpResponse
 from django.urls import include, path
-from q5_django_project.cviews import contact
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('q5_django.urls')), 
+    path('', include('q5_django.urls')),
+]
     # path('contact/', contact, name='contact'),
     # path('thanks/', lambda request: HttpResponse('Thank you!'), 
     #      name='thanks'),
-]
+
 
