@@ -1,0 +1,56 @@
+<form id="census_form">
+    {% csrf_token %}
+    <label for="location">Location:</label>
+    <select name="location" id="location">
+        <option value="Kalimati">Kalimati</option>
+        <option value="Kalanki">Kalanki</option>
+        <option value="Chabahil">Chabahil</option>
+        <option value="Bhaktapur">Bhaktapur</option>
+    </select>
+
+    <div id="formFields">
+        <!-- Age and Gender fields will be loaded here via AJAX based on location -->
+    </div>
+    <div id="additionalFields">
+        <!-- Additional fields  -->
+    </div>
+
+    <button type="submit">Submit</button>
+</form>
+
+<div id="result"></div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $('#location').change(function () {
+        var location = $(this).val();
+        $.ajax({
+            type: 'POST',
+            url: '{% url "/census_form" %}', // Ensure this points to the correct URL
+            data: {
+                'location': location,
+                'csrfmiddlewaretoken': '{{ csrf_token }}'
+            },
+            success: function (data) {
+                $('#formFields').html(data.form_html); // Ensure this matches your backend response
+            }
+        });
+    });
+
+
+    $('#census_form').submit(function (e) {
+        e.preventDefault();
+        $.ajax({
+            type: 'POST',
+            url: '{% url "/census_form" %}',
+            data: $(this).serialize(),
+            success: function (response) {
+                if (response.status === 'success') {
+                    $('#result').html('<p>' + response.message + '</p>');
+                } else {
+                    $('#result').html('<p>' + response.errors + '</p>');
+                }
+            }
+        });
+    });
+</script>
