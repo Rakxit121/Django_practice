@@ -1,0 +1,47 @@
+<!-- templates/employee/employee_list.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="employee-list">
+    <h2>Employee List</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Profile Pic</th>
+                <th>Name</th>
+                <th>Gender</th>
+                <th>Phone No.</th>
+                <th>Level</th>
+                <th>Status</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+<!-- templates/employee/employee_list.html (continued) -->
+{% for employee in employees %}
+<tr>
+    <td>{{ employee.id }}</td>
+    <td><img src="{{ employee.profile_pic.url }}" alt="Profile" width="50"></td>
+    <td>{{ employee.name }}</td>
+    <td>{{ employee.gender }}</td>
+    <td>{{ employee.phone_number }}</td>
+    <td>{{ employee.level.name }}</td>
+    <td>{{ employee.status }}</td>
+    <td><a href="{% url 'edit_employee' employee.id %}">Edit</a></td>
+    <td><form method="POST" action="{% url 'delete_employee' employee.id %}">
+        {% csrf_token %}
+        <button type="submit">Delete</button>
+    </form></td>
+</tr>
+{% empty %}
+<tr>
+    <td colspan="9">No employees found</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+</div>
+{% endblock %}
+

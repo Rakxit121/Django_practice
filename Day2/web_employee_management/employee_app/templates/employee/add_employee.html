@@ -1,0 +1,50 @@
+<!-- templates/employee/add_employee.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="employee-form-container">
+    <h2>Add New Employee</h2>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <div>
+            <label for="id_level">Level:</label>
+            <select id="id_level" name="level">
+                {% for level in levels %}
+                    <option value="{{ level.id }}">{{ level.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div id="salary-container">
+            <label for="salary">Salary:</label>
+            <input type="text" id="salary" readonly>
+        </div>
+        <button type="submit">Add Employee</button>
+    </form>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const levelSelect = document.getElementById('id_level');
+        const salaryField = document.getElementById('salary');
+
+        levelSelect.addEventListener('change', function() {
+            const selectedLevel = levelSelect.options[levelSelect.selectedIndex].text;
+
+            // Update salary based on the selected level dynamically (simulating server-side lookup)
+            if (selectedLevel === 'Level 1') {
+                salaryField.value = '10000';
+            } else if (selectedLevel === 'Level 2') {
+                salaryField.value = '18000';
+            } else if (selectedLevel === 'Level 3') {
+                salaryField.value = '30000';
+            } else {
+                salaryField.value = '0';
+            }
+        });
+
+        // Trigger salary update on page load
+        levelSelect.dispatchEvent(new Event('change'));
+    });
+</script>
+{% endblock %}
