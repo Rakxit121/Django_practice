@@ -1,11 +1,10 @@
 import 'dart:convert';
-
 import 'package:http/http.dart' as http;
 
 class ApiService {
   static const String baseUrl = 'http://127.0.0.1:8000/api/employees/';
 
-  static Future<void> syncEmployee(Map<String, String> employee) async {
+  static Future<void> syncEmployee(Map<String, dynamic> employee) async {
     var response = await http.post(
       Uri.parse(baseUrl),
       headers: {'Content-Type': 'application/json'},
@@ -15,7 +14,7 @@ class ApiService {
     if (response.statusCode == 201) {
       print('Employee synced successfully');
     } else {
-      print('Failed to sync employee');
+      print('Failed to sync employee: ${response.body}');
     }
   }
 }

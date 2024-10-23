@@ -1,11 +1,13 @@
 class Employee {
   String name;
   String employeeId;
-  int gender;
+  int gender; // 1 for Male, 2 for Female, 3 for Other
   String phone;
   String email;
-  int status;
-  String qualification;
+  String level;
+  int status; // 0 for Active, 1 for Terminated, 2 for Present
+  String?
+      qualificationPath; // Updated to store the path of the qualification file
 
   Employee({
     required this.name,
@@ -13,8 +15,9 @@ class Employee {
     required this.gender,
     required this.phone,
     required this.email,
+    required this.level,
     required this.status,
-    required this.qualification,
+    this.qualificationPath, // Make this nullable
   });
 
   Map<String, dynamic> toJson() {
@@ -24,8 +27,9 @@ class Employee {
       'gender': gender,
       'phone': phone,
       'email': email,
+      'level': level,
       'status': status,
-      'qualification': qualification,
+      'qualification': qualificationPath, // Updated to use the path
     };
   }
 }
