@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>View Employees</h1>
+<ul>
+    {% for employee in employees %}
+    <li>
+        {{ employee.name }} (Level: {{ employee.level.level }}, Salary: {{ employee.salary.salary }})
+        <a href="{% url 'edit_employee' employee.pk %}">Edit</a>
+        <a href="{% url 'delete_employee' employee.pk %}">Delete</a>
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}
