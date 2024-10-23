@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %}Employee List{% endblock %}
+
+{% block content %}
+<h1>Employee List</h1>
+<a href="{% url 'add_employee' %}" class="add-button">Add Employee</a>
+<input type="text" id="search" placeholder="Search by name..." onkeyup="filterTable()">
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Profile Picture</th>
+            <th>Name</th>
+            <th>Gender</th>
+            <th>Phone No.</th>
+            <th>Email</th>
+            <th>Level</th>
+            <th>Salary</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody id="employee-table">
+        {% for employee in employees %}
+        <tr>
+            <td>{{ employee.id }}</td>
+            <td><img src="{{ employee.profile_picture.url }}" alt="{{ employee.name }}" width="50"></td>
+            <td>{{ employee.name }}</td>
+            <td>{{ employee.gender }}</td>
+            <td>{{ employee.phone_number }}</td>
+            <td>{{ employee.email }}</td>
+            <td>{{ employee.salary_set.first.level.level_number }}</td>
+            <td>{{ employee.salary_set.first.amount }}</td>
+            <td>
+                <a href="{% url 'edit_employee' employee.id %}">Edit</a>
+                <form action="{% url 'delete_employee' employee.id %}" method="POST" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit">Delete</button>
+                </form>
+                <a href="{% url 'add_qualification' employee.id %}">Add Qualification</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
