@@ -6,8 +6,8 @@ class Employee {
   String email;
   String level;
   int status; // 0 for Active, 1 for Terminated, 2 for Present
-  String?
-      qualificationPath; // Updated to store the path of the qualification file
+  String? qualificationPath; // Path of the qualification file
+  String? profilePicPath; // Nullable field for storing profile picture path
 
   Employee({
     required this.name,
@@ -17,7 +17,8 @@ class Employee {
     required this.email,
     required this.level,
     required this.status,
-    this.qualificationPath, // Make this nullable
+    this.qualificationPath, // Nullable
+    this.profilePicPath, // Nullable profile picture path
   });
 
   Map<String, dynamic> toJson() {
@@ -29,7 +30,8 @@ class Employee {
       'email': email,
       'level': level,
       'status': status,
-      'qualification': qualificationPath, // Updated to use the path
+      'qualification': qualificationPath,
+      'profilePic': profilePicPath, // Added profile pic to JSON
     };
   }
 }

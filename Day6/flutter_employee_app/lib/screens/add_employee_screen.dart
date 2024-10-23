@@ -24,6 +24,7 @@ class _AddEmployeeScreenState extends State<AddEmployeeScreen> {
       _gender,
       _level,
       _status;
+      
   XFile? _qualificationsFile; // Store the picked image file
 
   @override
