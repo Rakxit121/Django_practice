@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 
@@ -15,19 +13,7 @@ class EmployeeListScreen extends StatefulWidget {
 class _EmployeeListScreenState extends State<EmployeeListScreen> {
   List<Map<String, dynamic>> employees = [];
 
-  @override
-  void initState() {
-    super.initState();
-    _loadEmployees(); // Load employees when the screen is initialized
-  }
-
-  // Function to load employees from local storage (implement this based on your storage)
-  void _loadEmployees() async {
-    // Load employees from your local storage or another source
-    // employees = await LocalStorage.getEmployees(); // Uncomment this when you have local storage setup
-  }
-
-  // Function to add a new employee to the list
+  // Function to add new employee to the list
   void _addEmployee(Map<String, dynamic> employee) {
     setState(() {
       employees.add(employee);
@@ -55,21 +41,18 @@ class _EmployeeListScreenState extends State<EmployeeListScreen> {
     if (connectivityResult == ConnectivityResult.none) {
       _showAlertDialog("You are not connected to the internet.");
     } else {
-      // Simulate syncing
       setState(() {
         employees[index]['isSynced'] = true;
       });
-      // Implement actual syncing logic here (e.g., API call)
     }
   }
 
-  // Show alert dialog
   void _showAlertDialog(String message) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Connection Status'),
+          title: const Text('Connection Error'),
           content: Text(message),
           actions: [
             TextButton(
@@ -84,15 +67,14 @@ class _EmployeeListScreenState extends State<EmployeeListScreen> {
     );
   }
 
-  // Show qualifications in a dialog
-  void _showQualifications(String qualificationsPath) {
+  void _showQualifications(String qualifications) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
         title: const Text('Qualifications'),
-        content: qualificationsPath.isNotEmpty
-            ? Image.file(File(qualificationsPath)) // Load the image
-            : const Text('No qualifications uploaded.'),
+        content: Text(qualifications.isNotEmpty
+            ? qualifications
+            : 'No qualifications uploaded.'),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
@@ -103,36 +85,63 @@ class _EmployeeListScreenState extends State<EmployeeListScreen> {
     );
   }
 
-  // Function to refresh employee list and check connectivity
-  Future<void> _refreshEmployeeList() async {
-    var connectivityResult = await (Connectivity().checkConnectivity());
-    String message;
+// // Function to show qualifications
+// void _showQualifications(List<String>? qualifications) {
+//   // Check if qualifications are null or empty
+//   if (qualifications == null || qualifications.isEmpty) {
+//     // Show a message indicating that qualifications are not uploaded
+//     _showMessage('Qualifications are not uploaded.');
+//     return;
+//   }
 
-    if (connectivityResult == ConnectivityResult.none) {
-      message = "You are not connected to the internet.";
-    } else {
-      message = "You are connected to the internet.";
-      // Here, you can add logic to refresh employee data from an API or local storage
-      // e.g., employees = await LocalStorage.getEmployees();
-      setState(() {
-        // If needed, update your employee list here
-      });
-    }
+//   // Continue with your logic to display qualifications
+//   // For example, you can show them in a dialog or another screen
+//   _showQualificationsDialog(qualifications);
+// }
 
-    _showAlertDialog(message);
-  }
+// // Function to show a simple message
+// void _showMessage(String message) {
+//   showDialog(
+//     context: context,
+//     builder: (context) => AlertDialog(
+//       title: const Text('Information'),
+//       content: Text(message),
+//       actions: [
+//         TextButton(
+//           onPressed: () => Navigator.of(context).pop(),
+//           child: const Text('OK'),
+//         ),
+//       ],
+//     ),
+//   );
+// }
 
+// // Function to show qualifications in a dialog
+// void _showQualificationsDialog(List<String> qualifications) {
+//   showDialog(
+//     context: context,
+//     builder: (context) => AlertDialog(
+//       title: const Text('Qualifications'),
+//       content: Column(
+//         mainAxisSize: MainAxisSize.min,
+//         children: qualifications
+//             .map((qualification) => Text(qualification))
+//             .toList(),
+//       ),
+//       actions: [
+//         TextButton(
+//           onPressed: () => Navigator.of(context).pop(),
+//           child: const Text('OK'),
+//         ),
+//       ],
+//     ),
+//   );
+// }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Employee List'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.refresh),
-            onPressed: _refreshEmployeeList,
-          ),
-        ],
       ),
       body: Column(
         children: [

@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -24,8 +23,9 @@ class _AddEmployeeScreenState extends State<AddEmployeeScreen> {
       _gender,
       _level,
       _status;
-      
-  XFile? _qualificationsFile; // Store the picked image file
+
+  XFile? _qualificationsFile; // Store the picked qualifications file
+  XFile? _profilePicFile; // Store the picked profile picture file
 
   @override
   void initState() {
@@ -39,7 +39,7 @@ class _AddEmployeeScreenState extends State<AddEmployeeScreen> {
       _gender = widget.employee!['gender'];
       _level = widget.employee!['level'];
       _status = widget.employee!['status'];
-      // Note: You'll need to handle the qualifications if you're using an image
+      // Note: Handle qualifications and profile picture if applicable
     }
   }
 
@@ -47,7 +47,16 @@ class _AddEmployeeScreenState extends State<AddEmployeeScreen> {
     final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
     if (image != null) {
       setState(() {
-        _qualificationsFile = image; // Save the selected file
+        _qualificationsFile = image; // Save the selected qualifications file
+      });
+    }
+  }
+
+  Future<void> _pickProfilePicture() async {
+    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+    if (image != null) {
+      setState(() {
+        _profilePicFile = image; // Save the selected profile picture
       });
     }
   }
@@ -77,7 +86,7 @@ class _AddEmployeeScreenState extends State<AddEmployeeScreen> {
                   },
                   onSaved: (value) => _name = value,
                 ),
-                // Employee ID field
+                // Employee ID field (auto enter)
                 TextFormField(
                   initialValue: _employeeId,
                   decoration: const InputDecoration(labelText: 'Employee ID'),
@@ -89,7 +98,7 @@ class _AddEmployeeScreenState extends State<AddEmployeeScreen> {
                   },
                   onSaved: (value) => _employeeId = value,
                 ),
-                // Mobile Number field
+// Mobile Number field 10 digit integer
                 TextFormField(
                   initialValue: _mobileNumber,
                   decoration: const InputDecoration(labelText: 'Mobile Number'),
@@ -97,11 +106,15 @@ class _AddEmployeeScreenState extends State<AddEmployeeScreen> {
                     if (value == null || value.isEmpty) {
                       return 'Please enter a mobile number';
                     }
+                    // Validate that it contains exactly 10 digits
+                    if (!RegExp(r'^\d{10}$').hasMatch(value)) {
+                      return 'Please enter a valid 10-digit mobile number';
+                    }
                     return null;
                   },
                   onSaved: (value) => _mobileNumber = value,
                 ),
-                // Email field
+// Email field - must contain @ and .
                 TextFormField(
                   initialValue: _email,
                   decoration: const InputDecoration(labelText: 'Email'),
@@ -109,16 +122,32 @@ class _AddEmployeeScreenState extends State<AddEmployeeScreen> {
                     if (value == null || value.isEmpty) {
                       return 'Please enter an email';
                     }
+                    // Validate email format
+                    if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
+                      return 'Please enter a valid email address';
+                    }
                     return null;
                   },
                   onSaved: (value) => _email = value,
                 ),
-                // Address field
+// Address field - must include province and district
                 TextFormField(
                   initialValue: _address,
-                  decoration: const InputDecoration(labelText: 'Address'),
+                  decoration: const InputDecoration(
+                      labelText: 'Address (include province and district)'),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter an address';
+                    }
+                    // Validate that it contains both province and district
+                    if (!value.contains(',')) {
+                      return 'Address province and district seperated by ,';
+                    }
+                    return null;
+                  },
                   onSaved: (value) => _address = value,
                 ),
+
                 // Gender dropdown
                 DropdownButtonFormField<String>(
                   value: _gender,
@@ -157,12 +186,20 @@ class _AddEmployeeScreenState extends State<AddEmployeeScreen> {
                   onChanged: (value) => setState(() => _status = value),
                   onSaved: (value) => _status = value,
                 ),
-                // Qualifications button
+                // Button to select qualifications file
                 ElevatedButton(
                   onPressed: _pickFile,
                   child: Text(_qualificationsFile != null
                       ? 'Selected: ${_qualificationsFile!.name}'
                       : 'Select Qualifications Image'),
+                ),
+
+                // Button to select profile picture
+                ElevatedButton(
+                  onPressed: _pickProfilePicture,
+                  child: Text(_profilePicFile != null
+                      ? 'Selected Profile Pic: ${_profilePicFile!.name}'
+                      : 'Select Profile Picture'),
                 ),
               ],
             ),
@@ -182,7 +219,8 @@ class _AddEmployeeScreenState extends State<AddEmployeeScreen> {
               'gender': _gender,
               'level': _level,
               'status': _status,
-              'qualifications': _qualificationsFile != null ? _qualificationsFile!.path : null,
+              'qualifications': _qualificationsFile?.path,
+              'profilePic': _profilePicFile?.path, // Add profile picture path
               'isSynced': false, // By default, not synced to the server
             });
             Navigator.of(context).pop();
