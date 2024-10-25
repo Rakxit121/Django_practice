@@ -16,7 +16,6 @@ class _HomePageState extends State<HomePage> {
   // Define the list of pages corresponding to the bottom nav
   static final List<Widget> _widgetOptions = <Widget>[
     const EmployeeListScreen(),
-    // const AddEmployeeScreen(),
     const ProfilePage(),
     const ProfilePage(),
   ];
@@ -27,6 +26,50 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  final List locale = [
+    {'language': 'English', 'locale': const Locale('en', 'US')},
+    {'language': 'Nepali', 'locale': const Locale('np', 'NP')}
+  ];
+
+  void updateLanguage(Locale locale) {
+    Get.back();
+    Get.updateLocale(locale);
+  }
+
+  void buildDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (builder) {
+        return AlertDialog(
+          title: const Text('Choose Your Language'),
+          content: SizedBox(
+            width: double.maxFinite,
+            child: ListView.separated(
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: GestureDetector(
+                    child: Text(locale[index]['language']),
+                    onTap: () {
+                      updateLanguage(locale[index]['locale']);
+                    },
+                  ),
+                );
+              },
+              separatorBuilder: (context, index) {
+                return const Divider(
+                  color: Colors.blue,
+                );
+              },
+              itemCount: locale.length,
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,42 +77,28 @@ class _HomePageState extends State<HomePage> {
         title: Text('title'.tr), // Localized title
         backgroundColor: Colors.blue,
         actions: [
-          PopupMenuButton<String>(
+          IconButton(
             icon: const Icon(Icons.language),
-            onSelected: (String value) {
-              if (value == 'English') {
-                Get.updateLocale(const Locale('en', 'US'));
-              } else if (value == 'Nepali') {
-                Get.updateLocale(const Locale('np'));
-              }
+            onPressed: () {
+              buildDialog(context);
             },
-            itemBuilder: (BuildContext context) => [
-              const PopupMenuItem(
-                value: 'English',
-                child: Text('English'),
-              ),
-              const PopupMenuItem(
-                value: 'Nepali',
-                child: Text('नेपाली'),
-              ),
-            ],
           ),
         ],
       ),
       body: _widgetOptions.elementAt(_selectedIndex), // Switches between pages
       bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
+        items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.list),
-            label: 'employee_list',
+            icon: const Icon(Icons.list),
+            label: 'employee_list'.tr, // Translated label
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.add),
-            label: 'add_employee',
+            icon: const Icon(Icons.add),
+            label: 'add_employee'.tr, // Translated label
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'profile',
+            icon: const Icon(Icons.person),
+            label: 'profile'.tr, // Translated label
           ),
         ],
         currentIndex: _selectedIndex,
@@ -79,15 +108,3 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
-
-// Dummy pages for Employee List, Add Employee, and Profile
-// class EmployeeListPage extends StatelessWidget {
-//   const EmployeeListPage({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return const Center(
-//       child: Text('Employee List Page'),
-//     );
-//   }
-// }

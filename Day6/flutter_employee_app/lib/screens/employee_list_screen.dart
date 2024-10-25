@@ -1,5 +1,6 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import 'add_employee_screen.dart';
 
@@ -154,18 +155,18 @@ class _EmployeeListScreenState extends State<EmployeeListScreen> {
                         AddEmployeeScreen(onSubmit: _addEmployee)),
               );
             },
-            child: const Text('Add Employee'),
+            child: Text('add_employee'.tr),
           ),
           Expanded(
             child: employees.isEmpty
-                ? const Center(child: Text('No Employees'))
+                ? Center(child: Text('no_employee'.tr))
                 : ListView.builder(
                     itemCount: employees.length,
                     itemBuilder: (context, index) {
                       final employee = employees[index];
                       return ListTile(
                         leading: const Icon(Icons.account_circle),
-                        title: Text(employee['name'] ?? 'N/A'),
+                        title: Text(employee['name'.tr] ?? 'N/A'),
                         subtitle:
                             Text('ID: ${employee['employeeId'] ?? 'N/A'}'),
                         trailing: Row(
@@ -195,7 +196,7 @@ class _EmployeeListScreenState extends State<EmployeeListScreen> {
                             IconButton(
                               icon: const Icon(Icons.file_present),
                               onPressed: () => _showQualifications(
-                                  employee['qualifications']),
+                                  employee['qualifications'.tr]),
                             ),
                             // Delete button
                             IconButton(

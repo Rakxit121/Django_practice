@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
 class AddEmployeeScreen extends StatefulWidget {
@@ -65,7 +66,8 @@ class _AddEmployeeScreenState extends State<AddEmployeeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.employee == null ? 'Add Employee' : 'Edit Employee'),
+        title: Text(
+            widget.employee == null ? 'add_employee'.tr : 'edit_employee'.tr),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -77,85 +79,82 @@ class _AddEmployeeScreenState extends State<AddEmployeeScreen> {
                 // Name field
                 TextFormField(
                   initialValue: _name,
-                  decoration: const InputDecoration(labelText: 'Name'),
+                  decoration: InputDecoration(labelText: 'name'.tr),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please enter a name';
+                      return 'enter_name'.tr;
                     }
                     return null;
                   },
                   onSaved: (value) => _name = value,
                 ),
-                // Employee ID field (auto enter)
+                // Employee ID field
                 TextFormField(
                   initialValue: _employeeId,
-                  decoration: const InputDecoration(labelText: 'Employee ID'),
+                  decoration: InputDecoration(labelText: 'employee_id'.tr),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please enter employee ID';
+                      return 'enter_employee_id'.tr;
                     }
                     return null;
                   },
                   onSaved: (value) => _employeeId = value,
                 ),
-// Mobile Number field 10 digit integer
+                // Mobile Number field
                 TextFormField(
                   initialValue: _mobileNumber,
-                  decoration: const InputDecoration(labelText: 'Mobile Number'),
+                  decoration: InputDecoration(labelText: 'mobile_number'.tr),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please enter a mobile number';
+                      return 'enter_mobile_number'.tr;
                     }
-                    // Validate that it contains exactly 10 digits
                     if (!RegExp(r'^\d{10}$').hasMatch(value)) {
-                      return 'Please enter a valid 10-digit mobile number';
+                      return 'valid_mobile_number'.tr;
                     }
                     return null;
                   },
                   onSaved: (value) => _mobileNumber = value,
                 ),
-// Email field - must contain @ and .
+                // Email field
                 TextFormField(
                   initialValue: _email,
-                  decoration: const InputDecoration(labelText: 'Email'),
+                  decoration: InputDecoration(labelText: 'email'.tr),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please enter an email';
+                      return 'enter_email'.tr;
                     }
-                    // Validate email format
                     if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
-                      return 'Please enter a valid email address';
+                      return 'valid_email'.tr;
                     }
                     return null;
                   },
                   onSaved: (value) => _email = value,
                 ),
-// Address field - must include province and district
+                // Address field
                 TextFormField(
                   initialValue: _address,
-                  decoration: const InputDecoration(
-                      labelText: 'Address (include province and district)'),
+                  decoration: InputDecoration(
+                    labelText: 'address_hint'.tr,
+                  ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please enter an address';
+                      return 'enter_address'.tr;
                     }
-                    // Validate that it contains both province and district
                     if (!value.contains(',')) {
-                      return 'Address province and district seperated by ,';
+                      return 'address_format'.tr;
                     }
                     return null;
                   },
                   onSaved: (value) => _address = value,
                 ),
-
                 // Gender dropdown
                 DropdownButtonFormField<String>(
                   value: _gender,
-                  decoration: const InputDecoration(labelText: 'Gender'),
-                  items: const [
-                    DropdownMenuItem(value: '1', child: Text('Male')),
-                    DropdownMenuItem(value: '2', child: Text('Female')),
-                    DropdownMenuItem(value: '3', child: Text('Other')),
+                  decoration: InputDecoration(labelText: 'gender'.tr),
+                  items: [
+                    DropdownMenuItem(value: '1', child: Text('male'.tr)),
+                    DropdownMenuItem(value: '2', child: Text('female'.tr)),
+                    DropdownMenuItem(value: '3', child: Text('other'.tr)),
                   ],
                   onChanged: (value) => setState(() => _gender = value),
                   onSaved: (value) => _gender = value,
@@ -163,12 +162,12 @@ class _AddEmployeeScreenState extends State<AddEmployeeScreen> {
                 // Level dropdown
                 DropdownButtonFormField<String>(
                   value: _level,
-                  decoration: const InputDecoration(labelText: 'Level'),
-                  items: const [
-                    DropdownMenuItem(value: '1', child: Text('1')),
-                    DropdownMenuItem(value: '2', child: Text('2')),
-                    DropdownMenuItem(value: '3', child: Text('3')),
-                    DropdownMenuItem(value: '4', child: Text('4')),
+                  decoration: InputDecoration(labelText: 'level'.tr),
+                  items: [
+                    DropdownMenuItem(value: '1', child: Text('1'.tr)),
+                    DropdownMenuItem(value: '2', child: Text('2'.tr)),
+                    DropdownMenuItem(value: '3', child: Text('3'.tr)),
+                    DropdownMenuItem(value: '4', child: Text('4'.tr)),
                   ],
                   onChanged: (value) => setState(() => _level = value),
                   onSaved: (value) => _level = value,
@@ -176,12 +175,13 @@ class _AddEmployeeScreenState extends State<AddEmployeeScreen> {
                 // Status dropdown
                 DropdownButtonFormField<String>(
                   value: _status,
-                  decoration: const InputDecoration(labelText: 'Status'),
-                  items: const [
-                    DropdownMenuItem(value: 'active', child: Text('Active')),
+                  decoration: InputDecoration(labelText: 'status'.tr),
+                  items: [
+                    DropdownMenuItem(value: 'active'.tr, child: Text('active'.tr)),
                     DropdownMenuItem(
-                        value: 'terminated', child: Text('Terminated')),
-                    DropdownMenuItem(value: 'present', child: Text('Present')),
+                        value: 'terminated'.tr, child: Text('terminated'.tr)),
+                    DropdownMenuItem(
+                        value: 'present'.tr, child: Text('present'.tr)),
                   ],
                   onChanged: (value) => setState(() => _status = value),
                   onSaved: (value) => _status = value,
@@ -190,16 +190,15 @@ class _AddEmployeeScreenState extends State<AddEmployeeScreen> {
                 ElevatedButton(
                   onPressed: _pickFile,
                   child: Text(_qualificationsFile != null
-                      ? 'Selected: ${_qualificationsFile!.name}'
-                      : 'Select Qualifications Image'),
+                      ? '${'selected'.tr}: ${_qualificationsFile!.name}'
+                      : 'select_qualifications'.tr),
                 ),
-
                 // Button to select profile picture
                 ElevatedButton(
                   onPressed: _pickProfilePicture,
                   child: Text(_profilePicFile != null
-                      ? 'Selected Profile Pic: ${_profilePicFile!.name}'
-                      : 'Select Profile Picture'),
+                      ? '${'selected_profile_pic'.tr}: ${_profilePicFile!.name}'
+                      : 'select_profile_pic'.tr),
                 ),
               ],
             ),
@@ -220,8 +219,8 @@ class _AddEmployeeScreenState extends State<AddEmployeeScreen> {
               'level': _level,
               'status': _status,
               'qualifications': _qualificationsFile?.path,
-              'profilePic': _profilePicFile?.path, // Add profile picture path
-              'isSynced': false, // By default, not synced to the server
+              'profilePic': _profilePicFile?.path,
+              'isSynced': false,
             });
             Navigator.of(context).pop();
           }

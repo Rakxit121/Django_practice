@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_employee_app/services/locale_string.dart';
-import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'package:flutter_employee_app/services/local_string.dart';
+// import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'package:get/get.dart';
+
 import 'screens/splash_screen.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+// import 'package:hive_flutter/hive_flutter.dart';
 
 void main() async {
-    // Ensure all bindings are initialized
+  // Ensure all bindings are initialized
   // WidgetsFlutterBinding.ensureInitialized();
 
   // // Initialize Hive
@@ -24,7 +26,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       title: 'Employee Management',
-      translations: LocaleString(),
+      translations: LocalString(),
+      debugShowCheckedModeBanner: false,
       locale: const Locale('en', 'US'), // Default language
       theme: ThemeData(
         primarySwatch: Colors.blue,
