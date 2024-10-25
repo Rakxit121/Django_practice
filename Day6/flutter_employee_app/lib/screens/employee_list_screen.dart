@@ -140,9 +140,9 @@ class _EmployeeListScreenState extends State<EmployeeListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Employee List'),
-      ),
+      // appBar: AppBar(
+      //   title: const Text('title'.tr),
+      // ),
       body: Column(
         children: [
           ElevatedButton(

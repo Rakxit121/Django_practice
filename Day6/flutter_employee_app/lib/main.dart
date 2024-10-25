@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_employee_app/services/locale_string.dart';
+import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'screens/splash_screen.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
@@ -20,8 +22,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       title: 'Employee Management',
+      translations: LocaleString(),
+      locale: const Locale('en', 'US'), // Default language
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),

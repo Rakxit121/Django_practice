@@ -1,7 +1,9 @@
 import 'dart:convert'; // For parsing responses
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart'; // For background image
 import 'package:flutter_employee_app/screens/home_page.dart';
+import 'package:get/get.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -107,42 +109,74 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Login")),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              TextFormField(
-                controller: _emailController,
-                decoration: const InputDecoration(labelText: "Email"),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter your email';
-                  }
-                  return null;
-                },
+      backgroundColor: Colors.transparent, // Remove background color
+      body: AnnotatedRegion<SystemUiOverlayStyle>(
+        value:
+            SystemUiOverlayStyle.light, // Light status bar for dark background
+        child: Stack(
+          children: [
+            // Background image
+            Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: const AssetImage(
+                      'assets/background.png'), // Replace with your image path
+                  fit: BoxFit.cover,
+                  colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.3),
+                      BlendMode.multiply), // Apply dark filter
+                ),
               ),
-              TextFormField(
-                controller: _passwordController,
-                decoration: const InputDecoration(labelText: "Password"),
-                obscureText: true,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter your password';
-                  }
-                  return null;
-                },
+            ),
+            // Login form container with glassmorphism effect
+            Center(
+              child: Container(
+                width: MediaQuery.of(context).size.width * 0.8,
+                padding: const EdgeInsets.all(20.0),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16.0),
+                  color: Colors.white
+                      .withOpacity(0.2), // Semi-transparent white background
+                ),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      TextFormField(
+                        controller: _emailController,
+                        decoration: const InputDecoration(labelText: "Email"),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your email'.tr;
+                          }
+                          return null;
+                        },
+                      ),
+                      TextFormField(
+                        controller: _passwordController,
+                        decoration:
+                            const InputDecoration(labelText: "Password"),
+                        obscureText: true,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your password';
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(height: 20),
+                      _isLoading
+                          ? const CircularProgressIndicator()
+                          : ElevatedButton(
+                              onPressed: _login,
+                              child: const Text("Login"),
+                            ),
+                    ],
+                  ),
+                ),
               ),
-              const SizedBox(height: 20),
-              _isLoading
-                  ? const CircularProgressIndicator()
-                  : ElevatedButton(
-                      onPressed: _login, child: const Text("Login")),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
