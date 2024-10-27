@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_employee_app/screens/employee_list_screen.dart';
+import 'package:flutter_employee_app/screens/health_insurance_form.dart';
 import 'package:flutter_employee_app/screens/profile_page.dart';
 import 'package:get/get.dart';
 
@@ -16,7 +17,7 @@ class _HomePageState extends State<HomePage> {
   // Define the list of pages corresponding to the bottom nav
   static final List<Widget> _widgetOptions = <Widget>[
     const EmployeeListScreen(),
-    const ProfilePage(),
+    const HealthInsuranceForm(),
     const ProfilePage(),
   ];
 

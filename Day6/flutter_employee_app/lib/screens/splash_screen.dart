@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_employee_app/screens/home_page.dart';
+import 'package:flutter_employee_app/screens/login_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -20,8 +20,8 @@ class SplashScreenState extends State<SplashScreen> {
     if (!mounted) return;
     Navigator.pushReplacement(
       context,
-      // MaterialPageRoute(builder: (context) => const LoginScreen()),
-      MaterialPageRoute(builder: (context) => const HomePage()),
+      // MaterialPageRoute(builder: (context) => const HomeScreen()),
+      MaterialPageRoute(builder: (context) => const LoginScreen()),
     );
   }
 
