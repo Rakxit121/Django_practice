@@ -4,14 +4,18 @@ class LocalString extends Translations {
   @override
   Map<String, Map<String, String>> get keys => {
         'en_US': {
+          "login": "Login",
+          "email": "Email",
+          "password": "Password",
+          "login_error": "Login Error",
+          "forgot_password": "Forgot Password?",
+          "change_language": "Change Language",
           "hello": "Hello World",
           "title": "Employee Management",
           "welcome": "Welcome",
           "sub": "Subscribe Now",
           "changelang": "Change Language",
-          "login": "Login",
           "emails": "Email",
-          "password": "Password",
           "employee_list": "Employee List",
           "no_employee": "No Employee",
           "add_employee": "Add Employee",
@@ -65,7 +69,6 @@ class LocalString extends Translations {
           "mobile_number": "Mobile Number",
           "enter_mobile_number": "Please enter a mobile number",
           "valid_mobile_number": "Please enter a valid 10-digit mobile number",
-          "email": "Email",
           "enter_email": "Please enter an email",
           "valid_email": "Please enter a valid email address",
           "address_hint": "Address (include province and district)",
@@ -87,14 +90,18 @@ class LocalString extends Translations {
           "select_profile_pic": "Select Profile Picture"
         },
         'np_Np': {
+          "login": "लग - इन",
+          "email": "इमेल",
+          "password": "पासवर्ड",
+          "login_error": "लगइन त्रुटि",
+          "forgot_password": "पासवर्ड बिर्सनुभयो?",
+          "change_language": "भाषा परिवर्तन गर्नुहोस्",
           "hello": "नमस्ते दुनिया",
           "title": "कर्मचारी व्यवस्थापन",
           "welcome": "स्वागत छ",
           "sub": "सब्सक्राइब",
           "changelang": "भाषा बदलो",
-          "login": "लगइन",
           "emails": "ईमेल",
-          "password": "पासवर्ड",
           "employee_list": "कर्मचारी सूची",
           "no_employee": "कर्मचारी छैनन्",
           "add_employee": "कर्मचारी थप्नुहोस्",
@@ -143,7 +150,6 @@ class LocalString extends Translations {
           "name": "नाम",
           "employee_id": "कर्मचारी आईडी",
           "mobile_number": "मोबाइल नम्बर",
-          "email": "इमेल",
           "enter_email":
               "कृपया इमेल प्रविष्ट गर्नुहोस्", // Added the missing entry
           "valid_email": "Please enter a valid email address",

@@ -1,4 +1,4 @@
-import 'dart:convert'; // For parsing responses
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_employee_app/screens/home_page.dart';
@@ -24,18 +24,15 @@ class _LoginScreenState extends State<LoginScreen> {
         _isLoading = true;
       });
 
-      // Static email and password
       const email = 'a@g.c';
       const password = 'a';
 
-      // Simulate a network request
       await Future.delayed(const Duration(seconds: 2));
 
       setState(() {
         _isLoading = false;
       });
 
-      // Simulate a successful response
       const responseStatusCode = 200;
       const responseBody = '{"token": "dummy_token"}';
 
@@ -59,7 +56,7 @@ class _LoginScreenState extends State<LoginScreen> {
     showDialog(
       context: context,
       builder: (_) => AlertDialog(
-        title: const Text("Login Error"),
+        title: Text("login_error".tr),
         content: Text(message),
         actions: [
           TextButton(
@@ -71,15 +68,75 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
+  void _forgotPassword() {
+    showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: Text("forgot_password".tr),
+        content: const Text(
+            "Please contact support or check your email for password reset instructions."),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text("OK"),
+          ),
+        ],
+      ),
+    );
+  }
+
+  final List locale = [
+    {'language': 'English', 'locale': const Locale('en', 'US')},
+    {'language': 'Nepali', 'locale': const Locale('np', 'NP')}
+  ];
+
+  void updateLanguage(Locale locale) {
+    Get.back();
+    Get.updateLocale(locale);
+  }
+
+  void _buildDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (builder) {
+        return AlertDialog(
+          title: const Text('Choose Your Language'),
+          content: SizedBox(
+            width: double.maxFinite,
+            child: ListView.separated(
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: GestureDetector(
+                    child: Text(locale[index]['language']),
+                    onTap: () {
+                      updateLanguage(locale[index]['locale']);
+                    },
+                  ),
+                );
+              },
+              separatorBuilder: (context, index) {
+                return const Divider(
+                  color: Colors.blue,
+                );
+              },
+              itemCount: locale.length,
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
         children: [
-          // Background Image
           Positioned.fill(
             child: Image.asset(
-              'assets/images/background1.jpg', // Replace with your image path
+              'assets/images/background1.jpg',
               fit: BoxFit.cover,
             ),
           ),
@@ -113,9 +170,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Text(
-                        'Login',
-                        style: TextStyle(
+                      Text(
+                        'login'.tr,
+                        style: const TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
                         ),
@@ -124,7 +181,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       TextFormField(
                         controller: _emailController,
                         decoration: InputDecoration(
-                          hintText: 'Email',
+                          hintText: 'email'.tr,
                           filled: true,
                           fillColor: Colors.white.withOpacity(0.7),
                           border: OutlineInputBorder(
@@ -144,7 +201,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         controller: _passwordController,
                         obscureText: true,
                         decoration: InputDecoration(
-                          hintText: 'Password',
+                          hintText: 'password'.tr,
                           filled: true,
                           fillColor: Colors.white.withOpacity(0.7),
                           border: OutlineInputBorder(
@@ -154,7 +211,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please enter your password';
+                            return 'Please enter your password'.tr;
                           }
                           return null;
                         },
@@ -170,8 +227,19 @@ class _LoginScreenState extends State<LoginScreen> {
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                               ),
-                              child: const Text('Login'),
+                              child: Text('login'.tr),
                             ),
+                      const SizedBox(height: 10),
+                      TextButton(
+                        onPressed: _forgotPassword,
+                        child: Text(
+                          "forgot_password".tr,
+                          style: const TextStyle(
+                            color: Colors.blue,
+                            decoration: TextDecoration.underline,
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -180,227 +248,30 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // Navigate to signup screen
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const HomePage()),
-          );
-        },
-        tooltip: 'Sign Up',
-        backgroundColor: Colors.blue,
-        elevation: 10.0,
-        shape: const CircleBorder(),
-        child: const Icon(Icons.person_add),
-        // color: Colors.white,
-        // padding: EdgeInsets.symmetric(horizontal: 10.0),
-        // margin: EdgeInsets.symmetric(vertical: 10.0),
+      floatingActionButton: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          FloatingActionButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const HomePage()),
+              );
+            },
+            tooltip: 'Sign Up',
+            backgroundColor: Colors.blue,
+            child: const Icon(Icons.person_add),
+          ),
+          const SizedBox(height: 10),
+          FloatingActionButton.extended(
+            onPressed: () => _buildDialog(context),
+            label: Text("".tr),
+            icon: const Icon(Icons.language),
+            tooltip: 'Sign Up',
+            backgroundColor: Colors.blue,
+          ),
+        ],
       ),
     );
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// import 'dart:convert'; // For parsing responses
-
-// import 'package:flutter/material.dart';
-// import 'package:flutter/services.dart'; // For background image
-// import 'package:flutter_employee_app/screens/home_page.dart';
-// import 'package:get/get.dart';
-
-// class LoginScreen extends StatefulWidget {
-//   const LoginScreen({super.key});
-
-//   @override
-//   _LoginScreenState createState() => _LoginScreenState();
-// }
-
-// class _LoginScreenState extends State<LoginScreen> {
-//   final _formKey = GlobalKey<FormState>();
-//   final TextEditingController _emailController = TextEditingController();
-//   final TextEditingController _passwordController = TextEditingController();
-//   bool _isLoading = false;
-
-//   // Future<void> _login() async {
-//   //   if (_formKey.currentState!.validate()) {
-//   //     setState(() {
-//   //       _isLoading = true;
-//   //     });
-
-//   //     // Replace with your Django backend URL
-//   //     final url = Uri.parse('https://your-backend.com/api/login/');
-//   //     final response = await http.post(url, body: {
-//   //       'email': _emailController.text,
-//   //       'password': _passwordController.text,
-//   //     });
-
-//   //     setState(() {
-//   //       _isLoading = false;
-//   //     });
-
-//   //     if (response.statusCode == 200) {
-//   //       final data = json.decode(response.body);
-//   //       if (data['token'] != null) {
-//   //         // Save token using Provider or SharedPreferences, and navigate to the home screen
-//   //         Navigator.pushReplacement(
-//   //           context,
-//   //           MaterialPageRoute(builder: (context) => const HomePage()),
-//   //         );
-//   //       } else {
-//   //         _showError("Invalid credentials. Please try the correct password.");
-//   //       }
-//   //     } else {
-//   //       _showError("Server error, please try again later.");
-//   //     }
-//   //   }
-//   // }
-
-//   Future<void> _login() async {
-//     if (_formKey.currentState!.validate()) {
-//       setState(() {
-//         _isLoading = true;
-//       });
-
-//       // Static email and password
-//       const email = 'a@g.c';
-//       const password = 'a';
-
-//       // Simulate a network request
-//       await Future.delayed(const Duration(seconds: 2));
-
-//       setState(() {
-//         _isLoading = false;
-//       });
-
-//       // Simulate a successful response
-//       const responseStatusCode = 200;
-//       const responseBody = '{"token": "dummy_token"}';
-
-//       if (responseStatusCode == 200) {
-//         final data = json.decode(responseBody);
-//         if (data['token'] != null) {
-//           // Save token using Provider or SharedPreferences, and navigate to the home screen
-//           Navigator.pushReplacement(
-//             context,
-//             MaterialPageRoute(builder: (context) => const HomePage()),
-//           );
-//         } else {
-//           _showError("Invalid credentials. Please try the correct password.");
-//         }
-//       } else {
-//         _showError("Server error, please try again later.");
-//       }
-//     }
-//   }
-
-//   void _showError(String message) {
-//     showDialog(
-//       context: context,
-//       builder: (_) => AlertDialog(
-//         title: const Text("Login Error"),
-//         content: Text(message),
-//         actions: [
-//           TextButton(
-//             onPressed: () => Navigator.pop(context),
-//             child: const Text("OK"),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       backgroundColor: Colors.transparent, // Remove background color
-//       body: AnnotatedRegion<SystemUiOverlayStyle>(
-//         value:
-//             SystemUiOverlayStyle.light, // Light status bar for dark background
-//         child: Stack(
-//           children: [
-//             // Background image
-//             Container(
-//               decoration: BoxDecoration(
-//                 image: DecorationImage(
-//                   image: const AssetImage(
-//                       'assets/background.png'), // Replace with your image path
-//                   fit: BoxFit.cover,
-//                   colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.3),
-//                       BlendMode.multiply), // Apply dark filter
-//                 ),
-//               ),
-//             ),
-//             // Login form container with glassmorphism effect
-//             Center(
-//               child: Container(
-//                 width: MediaQuery.of(context).size.width * 0.8,
-//                 padding: const EdgeInsets.all(20.0),
-//                 decoration: BoxDecoration(
-//                   borderRadius: BorderRadius.circular(16.0),
-//                   color: Colors.white
-//                       .withOpacity(0.2), // Semi-transparent white background
-//                 ),
-//                 child: Form(
-//                   key: _formKey,
-//                   child: Column(
-//                     mainAxisAlignment: MainAxisAlignment.center,
-//                     children: [
-//                       TextFormField(
-//                         controller: _emailController,
-//                         decoration: const InputDecoration(labelText: "Email"),
-//                         validator: (value) {
-//                           if (value == null || value.isEmpty) {
-//                             return 'Please enter your email'.tr;
-//                           }
-//                           return null;
-//                         },
-//                       ),
-//                       TextFormField(
-//                         controller: _passwordController,
-//                         decoration:
-//                             const InputDecoration(labelText: "Password"),
-//                         obscureText: true,
-//                         validator: (value) {
-//                           if (value == null || value.isEmpty) {
-//                             return 'Please enter your password';
-//                           }
-//                           return null;
-//                         },
-//                       ),
-//                       const SizedBox(height: 20),
-//                       _isLoading
-//                           ? const CircularProgressIndicator()
-//                           : ElevatedButton(
-//                               onPressed: _login,
-//                               child: const Text("Login"),
-//                             ),
-//                     ],
-//                   ),
-//                 ),
-//               ),
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
