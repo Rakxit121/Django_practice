@@ -17,6 +17,8 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool _isLoading = false;
+  int _attemptCount = 0; // Counter for failed attempts
+  static const int _maxAttempts = 3; // Maximum number of allowed attempts
 
   Future<void> _login() async {
     if (_formKey.currentState!.validate()) {
@@ -24,19 +26,27 @@ class _LoginScreenState extends State<LoginScreen> {
         _isLoading = true;
       });
 
-      const email = 'a@g.c';
-      const password = 'a';
+      // Simulated user credentials for demonstration
+      const String email = 'a@g.c';
+      const String password = 'a';
 
+      // Simulate a network request delay
       await Future.delayed(const Duration(seconds: 2));
 
       setState(() {
         _isLoading = false;
       });
 
-      const responseStatusCode = 200;
-      const responseBody = '{"token": "dummy_token"}';
+      // Simulated response for the example
+      const responseStatusCode =
+          200; // You would typically get this from an API
+      const responseBody =
+          '{"token": "dummy_token"}'; // Simulated response body
 
-      if (responseStatusCode == 200) {
+      // Checking if the credentials are correct
+      if (_emailController.text == email &&
+          _passwordController.text == password) {
+        // Login successful
         final data = json.decode(responseBody);
         if (data['token'] != null) {
           Navigator.pushReplacement(
@@ -47,8 +57,19 @@ class _LoginScreenState extends State<LoginScreen> {
           _showError("Invalid credentials. Please try the correct password.");
         }
       } else {
-        _showError("Server error, please try again later.");
+        // Increment the attempt count on failure
+        _attemptCount++;
+        _checkAttemptCount();
       }
+    }
+  }
+
+  void _checkAttemptCount() {
+    if (_attemptCount >= _maxAttempts) {
+      _showError("Maximum login attempts exceeded. Please try again later.");
+      // Optionally disable login button or take other actions here
+    } else {
+      _showError("Invalid credentials. Please try the correct password.");
     }
   }
 
@@ -56,7 +77,7 @@ class _LoginScreenState extends State<LoginScreen> {
     showDialog(
       context: context,
       builder: (_) => AlertDialog(
-        title: Text("login_error".tr),
+        title: const Text("Login Error"),
         content: Text(message),
         actions: [
           TextButton(
@@ -72,7 +93,7 @@ class _LoginScreenState extends State<LoginScreen> {
     showDialog(
       context: context,
       builder: (_) => AlertDialog(
-        title: Text("forgot_password".tr),
+        title: const Text("Forgot Password"),
         content: const Text(
             "Please contact support or check your email for password reset instructions."),
         actions: [
@@ -170,9 +191,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
-                        'login'.tr,
-                        style: const TextStyle(
+                      const Text(
+                        'Login',
+                        style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
                         ),
@@ -181,7 +202,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       TextFormField(
                         controller: _emailController,
                         decoration: InputDecoration(
-                          hintText: 'email'.tr,
+                          hintText: 'Email',
                           filled: true,
                           fillColor: Colors.white.withOpacity(0.7),
                           border: OutlineInputBorder(
@@ -191,7 +212,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please enter your email'.tr;
+                            return 'Please enter your email';
                           }
                           return null;
                         },
@@ -201,7 +222,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         controller: _passwordController,
                         obscureText: true,
                         decoration: InputDecoration(
-                          hintText: 'password'.tr,
+                          hintText: 'Password',
                           filled: true,
                           fillColor: Colors.white.withOpacity(0.7),
                           border: OutlineInputBorder(
@@ -211,7 +232,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please enter your password'.tr;
+                            return 'Please enter your password';
                           }
                           return null;
                         },
@@ -227,14 +248,14 @@ class _LoginScreenState extends State<LoginScreen> {
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                               ),
-                              child: Text('login'.tr),
+                              child: const Text('Login'),
                             ),
                       const SizedBox(height: 10),
                       TextButton(
                         onPressed: _forgotPassword,
-                        child: Text(
-                          "forgot_password".tr,
-                          style: const TextStyle(
+                        child: const Text(
+                          "Forgot Password?",
+                          style: TextStyle(
                             color: Colors.blue,
                             decoration: TextDecoration.underline,
                           ),
@@ -251,24 +272,12 @@ class _LoginScreenState extends State<LoginScreen> {
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          FloatingActionButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const HomePage()),
-              );
-            },
-            tooltip: 'Sign Up',
-            backgroundColor: Colors.blue,
-            child: const Icon(Icons.person_add),
-          ),
           const SizedBox(height: 10),
-          FloatingActionButton.extended(
+          FloatingActionButton(
             onPressed: () => _buildDialog(context),
-            label: Text("".tr),
-            icon: const Icon(Icons.language),
-            tooltip: 'Sign Up',
+            tooltip: 'Change Language',
             backgroundColor: Colors.blue,
+            child: const Icon(Icons.language),
           ),
         ],
       ),

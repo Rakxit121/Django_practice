@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class HealthInsuranceFormConfirm extends StatelessWidget {
   const HealthInsuranceFormConfirm({super.key});
@@ -7,7 +8,7 @@ class HealthInsuranceFormConfirm extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Health Insurance Form"),
+        title: Text("health_insurance_form".tr), // localized
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -15,95 +16,103 @@ class HealthInsuranceFormConfirm extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Center(
+              Center(
                 child: Text(
-                  "Government of Nepal\nHealth Insurance Board",
+                  "${"government_of_nepal".tr}\n${"health_insurance_board".tr}", // localized
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.bold),
                 ),
               ),
               const SizedBox(height: 8),
-              const Text("State/Province"),
+              Text("state_province".tr), // localized
               const SizedBox(height: 4),
               const TextField(),
               const SizedBox(height: 8),
-              const Text("Identity Card"),
+              Text("identity_card".tr), // localized
               const SizedBox(height: 4),
               const TextField(),
               const SizedBox(height: 8),
-              const Row(
+              Row(
                 children: [
-                  Expanded(child: Text("Insurance No.")),
-                  SizedBox(width: 4),
-                  Expanded(
+                  Expanded(child: Text("insurance_no".tr)), // localized
+                  const SizedBox(width: 4),
+                  const Expanded(
                     child: TextField(),
                   ),
                 ],
               ),
               const SizedBox(height: 16),
               const TextField(
-                decoration: InputDecoration(labelText: "Full Name"),
-              ),
-              const TextField(
                 decoration: InputDecoration(
-                  labelText: "Date of Birth",
-                  suffixIcon: Icon(Icons.calendar_today),
+                    labelText: "Full Name"), // needs localization
+              ),
+              TextField(
+                decoration: InputDecoration(
+                  labelText: "date_of_birth".tr, // localized
+                  suffixIcon: const Icon(Icons.calendar_today),
                 ),
               ),
-              const TextField(
-                decoration: InputDecoration(labelText: "Address Province"),
+              TextField(
+                decoration: InputDecoration(
+                    labelText: "address_province".tr), // localized
               ),
-              const TextField(
-                decoration: InputDecoration(labelText: "District"),
+              TextField(
+                decoration:
+                    InputDecoration(labelText: "district".tr), // localized
               ),
-              const TextField(
-                decoration: InputDecoration(labelText: "Toll or Road No."),
+              TextField(
+                decoration:
+                    InputDecoration(labelText: "toll_road_no".tr), // localized
               ),
               const SizedBox(height: 16),
-              const Text("Gender"),
+              Text("gender".tr), // localized
               Row(
                 children: [
                   Radio(
-                      value: "Male",
+                      value: "male".tr, // localized
                       groupValue: "gender",
                       onChanged: (value) {}),
-                  const Text("Male"),
+                  Text("male".tr), // localized
                   Radio(
-                      value: "Female",
+                      value: "female".tr, // localized
                       groupValue: "gender",
                       onChanged: (value) {}),
-                  const Text("Female"),
+                  Text("female".tr), // localized
                   Radio(
-                      value: "Other",
+                      value: "other".tr, // localized
                       groupValue: "gender",
                       onChanged: (value) {}),
-                  const Text("Other"),
+                  Text("other".tr), // localized
                 ],
               ),
               const SizedBox(height: 8),
-              const TextField(
-                decoration: InputDecoration(labelText: "First Service Point"),
-              ),
-              const TextField(
-                decoration: InputDecoration(labelText: "First Hospital"),
-              ),
-              const TextField(
+              TextField(
                 decoration: InputDecoration(
-                  labelText: "Citizen Slip or ID Card Register Date",
-                  suffixIcon: Icon(Icons.calendar_today),
+                    labelText: "first_service_point".tr), // localized
+              ),
+              TextField(
+                decoration: InputDecoration(
+                    labelText: "first_hospital".tr), // localized
+              ),
+              TextField(
+                decoration: InputDecoration(
+                  labelText: "citizen_slip_register_date".tr, // localized
+                  suffixIcon: const Icon(Icons.calendar_today),
                 ),
               ),
-              const TextField(
-                decoration: InputDecoration(labelText: "Contact No."),
+              TextField(
+                decoration:
+                    InputDecoration(labelText: "contact_no".tr), // localized
               ),
               const SizedBox(height: 16),
-              const Text("Insured Signature"),
+              Text("insured_signature".tr), // localized
               Container(
                 height: 50,
                 color: Colors.grey[300],
               ),
               const SizedBox(height: 16),
-              const Text("Left"),
+              Text("left".tr), // localized
               Row(
                 children: [
                   Expanded(
@@ -113,7 +122,7 @@ class HealthInsuranceFormConfirm extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: 8),
-                  const Text("Right"),
+                  Text("right".tr), // localized
                   Expanded(
                     child: Container(
                       height: 50,
@@ -123,25 +132,35 @@ class HealthInsuranceFormConfirm extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 24),
-              const Center(
+              Center(
                 child: Text(
-                  "Toll free no. 1660-01-1122U",
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  "toll_free_no".tr, // localized
+                  style: const TextStyle(
+                      fontSize: 16, fontWeight: FontWeight.bold),
                 ),
               ),
               const SizedBox(height: 24),
-              const Text(
-                "In case of unauthorized use of this identity card,\nit will be governed in accordance with...",
+              Text(
+                "unauthorized_use_warning".tr, // localized
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 12),
+                style: const TextStyle(fontSize: 12),
               ),
               const SizedBox(height: 24),
               Center(
                 child: ElevatedButton(
                   onPressed: () {
-                    // Implement next button action here
+                    Navigator.of(context).pop();
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return Dialog(
+                          child: Text(
+                              "form_submitted_successfully".tr), // localized
+                        );
+                      },
+                    );
                   },
-                  child: const Text("Next"),
+                  child: Text("submit".tr), // localized
                 ),
               ),
             ],
