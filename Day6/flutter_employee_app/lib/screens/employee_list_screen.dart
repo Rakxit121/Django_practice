@@ -205,6 +205,7 @@ class _EmployeeListScreenState extends State<EmployeeListScreen> {
                                 );
                               },
                             ),
+                            
                             // create heathcareform button
                             // if (employee['hasHeathcareForm'])
                             // create jobhistory button

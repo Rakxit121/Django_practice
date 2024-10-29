@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_employee_app/screens/employee_list_screen.dart';
 import 'package:flutter_employee_app/screens/health_insurance_form.dart';
 import 'package:flutter_employee_app/screens/profile_page.dart';
+import 'package:flutter_employee_app/screens/show_records.dart';
 import 'package:get/get.dart';
 
 class HomePage extends StatefulWidget {
@@ -18,6 +19,7 @@ class _HomePageState extends State<HomePage> {
   static final List<Widget> _widgetOptions = <Widget>[
     const EmployeeListScreen(),
     const HealthInsuranceForm(),
+    ShowRecords(),
     const ProfilePage(),
   ];
 
@@ -96,6 +98,10 @@ class _HomePageState extends State<HomePage> {
           BottomNavigationBarItem(
             icon: const Icon(Icons.add),
             label: 'add_employee'.tr, // Translated label
+          ),
+          BottomNavigationBarItem(
+            icon: const Icon(Icons.edit_document),
+            label: 'show_records'.tr, // Translated label
           ),
           BottomNavigationBarItem(
             icon: const Icon(Icons.person),
