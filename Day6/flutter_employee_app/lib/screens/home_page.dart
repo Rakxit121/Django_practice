@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_employee_app/screens/employee_list_screen.dart';
 import 'package:flutter_employee_app/screens/health_insurance_form.dart';
 import 'package:flutter_employee_app/screens/profile_page.dart';
-import 'package:flutter_employee_app/screens/show_records.dart';
 import 'package:get/get.dart';
 
 class HomePage extends StatefulWidget {
@@ -19,7 +18,7 @@ class _HomePageState extends State<HomePage> {
   static final List<Widget> _widgetOptions = <Widget>[
     const EmployeeListScreen(),
     const HealthInsuranceForm(),
-    ShowRecords(),
+    // ShowRecords(),
     const ProfilePage(),
   ];
 
@@ -78,18 +77,22 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('title'.tr), // Localized title
-        backgroundColor: Colors.blue,
+        foregroundColor: Colors.white,
+        backgroundColor: Color.fromARGB(255, 42, 153, 238),
         actions: [
           IconButton(
             icon: const Icon(Icons.language),
             onPressed: () {
               buildDialog(context);
             },
+            color: Colors.white,
           ),
         ],
       ),
       body: _widgetOptions.elementAt(_selectedIndex), // Switches between pages
+
       bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: const Color.fromARGB(255, 255, 255, 255),
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: const Icon(Icons.list),
@@ -99,17 +102,19 @@ class _HomePageState extends State<HomePage> {
             icon: const Icon(Icons.add),
             label: 'add_employee'.tr, // Translated label
           ),
-          BottomNavigationBarItem(
-            icon: const Icon(Icons.edit_document),
-            label: 'show_records'.tr, // Translated label
-          ),
+          // BottomNavigationBarItem(
+          //   icon: const Icon(Icons.edit_document),
+          //   label: 'show_records'.tr, // Translated label
+          // ),
           BottomNavigationBarItem(
             icon: const Icon(Icons.person),
             label: 'profile'.tr, // Translated label
           ),
         ],
         currentIndex: _selectedIndex,
+        // backgroundColor: Colors.black,
         selectedItemColor: Colors.blue,
+
         onTap: _onItemTapped,
       ),
     );

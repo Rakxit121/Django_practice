@@ -60,21 +60,104 @@ class _ProfilePageState extends State<ProfilePage> {
       appBar: AppBar(title: const Text('Profile Page')),
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
-          : ListView.builder(
-              itemCount: _data.length,
-              itemBuilder: (context, index) {
-                final item = _data[index];
-                return ListTile(
-                  leading: CircleAvatar(
-                    backgroundColor: Color(
-                        int.parse(item['color'].substring(1, 7), radix: 16) +
-                            0xFF000000),
+          : SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  // Profile Image and Details Section
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      children: [
+                        Stack(
+                          alignment: Alignment.bottomRight,
+                          children: [
+                            const CircleAvatar(
+                              radius: 50,
+                              backgroundImage:
+                                  AssetImage('assets/profile_placeholder.png'),
+                            ),
+                            IconButton(
+                              icon: const Icon(Icons.camera_alt,
+                                  color: Colors.blue),
+                              onPressed: () {
+                                // Handle profile picture update
+                              },
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 10),
+                        const Text(
+                          'John Doe', // Replace with dynamic data if available
+                          style: TextStyle(
+                              fontSize: 24, fontWeight: FontWeight.bold),
+                        ),
+                        const Text(
+                          'Software Engineer', // Replace with dynamic data if available
+                          style: TextStyle(color: Colors.grey, fontSize: 16),
+                        ),
+                        const Text(
+                          'Level: Senior', // Replace with dynamic data if available
+                          style: TextStyle(fontSize: 16),
+                        ),
+                      ],
+                    ),
                   ),
-                  title: Text(item['name']),
-                  subtitle: Text(
-                      'Year: ${item['year']}, Pantone: ${item['pantone_value']}'),
-                );
-              },
+
+                  // Settings and Edit Profile Section
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        ElevatedButton(
+                          onPressed: () {
+                            // Handle settings navigation
+                          },
+                          child: const Text('Settings'),
+                        ),
+                        ElevatedButton(
+                          onPressed: () {
+                            // Handle edit profile navigation
+                          },
+                          child: const Text('Edit Profile'),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const Divider(height: 20),
+
+                  // List of Items from API
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Text(
+                      'Favorite Colors',
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  ListView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: _data.length,
+                    itemBuilder: (context, index) {
+                      final item = _data[index];
+                      return ListTile(
+                        leading: CircleAvatar(
+                          backgroundColor: Color(int.parse(
+                                  item['color'].substring(1, 7),
+                                  radix: 16) +
+                              0xFF000000),
+                        ),
+                        title: Text(item['name']),
+                        subtitle: Text(
+                            'Year: ${item['year']}, Pantone: ${item['pantone_value']}'),
+                      );
+                    },
+                  ),
+                ],
+              ),
             ),
     );
   }
