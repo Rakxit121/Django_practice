@@ -78,7 +78,7 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: Text('title'.tr), // Localized title
         foregroundColor: Colors.white,
-        backgroundColor: Color.fromARGB(255, 42, 153, 238),
+        backgroundColor: const Color.fromARGB(255, 42, 153, 238),
         actions: [
           IconButton(
             icon: const Icon(Icons.language),

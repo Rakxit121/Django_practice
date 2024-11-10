@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_employee_app/screens/capture_screen.dart';
 import 'package:flutter_employee_app/screens/heathcareconfirm.dart';
 import 'package:get/get.dart';
 
@@ -281,6 +282,26 @@ class _HealthInsuranceFormState extends State<HealthInsuranceForm> {
               controller: _signatureCertifierController,
               label: 'donor_signature'.tr, // localized
               hint: 'donor_signature'.tr, // localized
+            ),
+            const SizedBox(height: 20.0),
+
+            // make a button to navigate capture screen to or open below
+            Center(
+              child: ElevatedButton(
+                onPressed: () {
+                  // Optional form validation
+                  if (_formKey.currentState!.validate()) {
+                    // Navigate to CaptureScreen when the button is pressed
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const CaptureScreen(),
+                      ),
+                    );
+                  }
+                },
+                child: const Text('Open Capture Screen'),
+              ),
             ),
             const SizedBox(height: 20.0),
             Center(
